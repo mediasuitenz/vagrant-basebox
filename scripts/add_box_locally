@@ -1,0 +1,3 @@
+#!/bin/bash
+
+vagrant box add vagrant-basebox vagrant-basebox.box --provider virtualbox -f
