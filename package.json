@@ -1,0 +1,25 @@
+{
+  "name": "vagrant-basebox",
+  "version": "1.0.0",
+  "description": "Base box for projects",
+  "main": "",
+  "scripts": {
+    "reset": "rm -f vagrant-basebox.box",
+    "destroy": "vagrant destroy",
+    "start": "vagrant up",
+    "provision": "vagrant provision",
+    "package": "./scripts/package",
+    "add": "./scripts/add_box_locally",
+    "build": "npm run reset && npm run destroy && npm run start && npm run provision && npm run package && npm run add"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mediasuitenz/vagrant-basebox.git"
+  },
+  "author": "Richard Walker",
+  "license": "Closed Source",
+  "bugs": {
+    "url": "https://github.com/mediasuitenz/vagrant-basebox/issues"
+  },
+  "homepage": "https://github.com/mediasuitenz/vagrant-basebox"
+}
