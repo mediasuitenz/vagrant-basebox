@@ -28,6 +28,30 @@ file {'/var/www/vhosts':
   ensure => 'directory'
 }
 
+# Nginx
+#
+# Module is ready to be used.
+# Documentation for configuration here:
+# https://forge.puppetlabs.com/jfryman/nginx
+#
+# Examples:
+#
+# Basic bootstrap example
+# class { 'nginx': }
+#
+# Proxy server example
+# nginx::resource::upstream { 'puppet_rack_app':
+#   members => [
+#     'localhost:3000',
+#     'localhost:3001',
+#     'localhost:3002',
+#   ],
+# }
+#
+# nginx::resource::vhost { 'rack.puppetlabs.com':
+#   proxy => 'http://puppet_rack_app',
+# }
+
 include apache2
 include php5
 include composer
