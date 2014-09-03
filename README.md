@@ -28,3 +28,20 @@ to do to update them is:
 - ```vagrant destroy```
 - ```vagrant up```
 - ```vagrant provision```
+
+## Adding new modules
+
+We aren't using puppet librarian to manage modules in an npmish way, we are
+instead installing them via the puppet module command and then committing them
+to github. Less that ideal. Would be nice to switch this out at some point but
+not important enough to worry too much.
+
+Find modules to install on puppet forge (`https://forge.puppetlabs.com`)
+
+```
+$ vagrant ssh
+$ puppet module --modulepath /vagrant/puppet/modules install jfryman-nginx
+$ echo "profit"
+```
+
+Read the docs for the module and make use in `/puppet/manifests/default.pp`
