@@ -138,3 +138,5 @@ class { 'java':
 }
 
 include bash
+
+include docker
