@@ -28,6 +28,14 @@ file {'/var/www/vhosts':
   ensure => 'directory'
 }
 
+file {'/var/www/vhosts/project':
+  ensure => 'directory'
+}
+
+file {'/var/www/vhosts/project/public_html':
+  ensure => 'directory'
+}
+
 # Nginx
 #
 # Module is ready to be used.
@@ -52,8 +60,25 @@ file {'/var/www/vhosts':
 #   proxy => 'http://puppet_rack_app',
 # }
 
-include apache2
+class { 'apache': 
+  mpm_module => 'prefork',
+  default_vhost => false,
+}
+
+apache::vhost { 'default-ms':
+  vhost_name          => '*',
+  servername          => 'default',
+  port                => '80',
+  docroot             => '/var/www/vhosts/project/public_html',
+  fallbackresource    => '/index.php',
+}
+
 include php5
+
+class {'::apache::mod::php': }
+
+apache::mod { 'rewrite': }
+
 include composer
 
 # module installed via
