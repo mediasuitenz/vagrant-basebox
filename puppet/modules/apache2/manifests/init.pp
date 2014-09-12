@@ -1,16 +1,21 @@
 class apache2 {
+
+  package { 'python software properties':
+    ensure => installed,
+    name => "software-properties-common"
+  }
+  ->
+  exec { 'add apache2 ppa':
+    command => '/usr/bin/apt-add-repository ppa:ondrej/apache2',
+  }
+  ->
   exec { "apt-get update":
     command => "/usr/bin/apt-get update"
   }
-
+  ->
   package { "apache2":
-    ensure => present,
+    ensure => "2.4.10-1+deb.sury.org~trusty+1",
   }
-
-  # package { "libapache-mod-ssl":
-  #   ensure => present,
-  #   require => Package["apache2"]
-  # }
 
   exec {"a2enmod ssl":
     command => "/usr/sbin/a2enmod ssl",
@@ -18,20 +23,21 @@ class apache2 {
   }
 
   service { "apache2":
-    ensure => running,
+    ensure  => running,
     require => Package["apache2"],
   }
 
   exec {'enable apache2 rewriteEngine':
     command => '/usr/sbin/a2enmod rewrite',
-    notify => Service['apache2']
+    require => Package["apache2"]
+    notify  => Service['apache2']
   }
 
   file { "default":
     path    => "/etc/apache2/sites-available/default",
     ensure  => file,
     require => Package["apache2"],
-    content  => template("apache2/default"),
+    content => template("apache2/default"),
     notify  => Service["apache2"]
   }
 
@@ -39,12 +45,13 @@ class apache2 {
     path    => "/etc/apache2/sites-available/default-ssl",
     ensure  => file,
     require => Package["apache2"],
-    content  => template("apache2/default-ssl"),
+    content => template("apache2/default-ssl"),
   }
   ->
   file { "/etc/apache2/sites-enabled/default-ssl":
-    target    => "/etc/apache2/sites-available/default-ssl",
+    target  => "/etc/apache2/sites-available/default-ssl",
     ensure  => 'link',
+    require => Package["apache2"]
     notify  => Service["apache2"]
   }
 
@@ -52,12 +59,13 @@ class apache2 {
     path    => "/etc/apache2/sites-available/project.dev.conf",
     ensure  => file,
     require => Package["apache2"],
-    content  => template("apache2/project.dev.conf"),
+    content => template("apache2/project.dev.conf"),
   }
   ->
   file { "/etc/apache2/sites-enabled/project.dev.conf":
-    target    => "/etc/apache2/sites-available/project.dev.conf",
+    target  => "/etc/apache2/sites-available/project.dev.conf",
     ensure  => 'link',
+    require => Package["apache2"]
     notify  => Service["apache2"]
   }
 
@@ -65,12 +73,13 @@ class apache2 {
     path    => "/etc/apache2/sites-available/project-ssl.dev.conf",
     ensure  => file,
     require => Package["apache2"],
-    content  => template("apache2/project-ssl.dev.conf"),
+    content => template("apache2/project-ssl.dev.conf"),
   }
   ->
   file { "/etc/apache2/sites-enabled/project-ssl.dev.conf":
-    target    => "/etc/apache2/sites-available/project-ssl.dev.conf",
+    target  => "/etc/apache2/sites-available/project-ssl.dev.conf",
     ensure  => 'link',
+    require => Package["apache2"]
     notify  => Service["apache2"]
   }
 }
