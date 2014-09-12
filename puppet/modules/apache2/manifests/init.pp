@@ -2,7 +2,7 @@ class apache2 {
 
   package { 'python software properties':
     ensure => installed,
-    name => "software-properties-common"
+    name => "software-properties-common",
   }
   ->
   exec { 'add apache2 ppa':
@@ -10,7 +10,7 @@ class apache2 {
   }
   ->
   exec { "apt-get update":
-    command => "/usr/bin/apt-get update"
+    command => "/usr/bin/apt-get update",
   }
   ->
   package { "apache2":
@@ -29,8 +29,8 @@ class apache2 {
 
   exec {'enable apache2 rewriteEngine':
     command => '/usr/sbin/a2enmod rewrite',
-    require => Package["apache2"]
-    notify  => Service['apache2']
+    require => Package["apache2"],
+    notify  => Service['apache2'],
   }
 
   file { "default":
@@ -38,7 +38,7 @@ class apache2 {
     ensure  => file,
     require => Package["apache2"],
     content => template("apache2/default"),
-    notify  => Service["apache2"]
+    notify  => Service["apache2"],
   }
 
   file { "default-ssl":
@@ -51,8 +51,8 @@ class apache2 {
   file { "/etc/apache2/sites-enabled/default-ssl":
     target  => "/etc/apache2/sites-available/default-ssl",
     ensure  => 'link',
-    require => Package["apache2"]
-    notify  => Service["apache2"]
+    require => Package["apache2"],
+    notify  => Service["apache2"],
   }
 
   file { "project.dev.conf":
@@ -65,8 +65,8 @@ class apache2 {
   file { "/etc/apache2/sites-enabled/project.dev.conf":
     target  => "/etc/apache2/sites-available/project.dev.conf",
     ensure  => 'link',
-    require => Package["apache2"]
-    notify  => Service["apache2"]
+    require => Package["apache2"],
+    notify  => Service["apache2"],
   }
 
   file { "project-ssl.dev.conf":
@@ -79,7 +79,7 @@ class apache2 {
   file { "/etc/apache2/sites-enabled/project-ssl.dev.conf":
     target  => "/etc/apache2/sites-available/project-ssl.dev.conf",
     ensure  => 'link',
-    require => Package["apache2"]
-    notify  => Service["apache2"]
+    require => Package["apache2"],
+    notify  => Service["apache2"],
   }
 }
