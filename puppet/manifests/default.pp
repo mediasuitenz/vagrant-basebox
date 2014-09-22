@@ -69,6 +69,7 @@ apache::vhost { 'default-ms':
   vhost_name          => '*',
   servername          => 'default',
   port                => '80',
+  override            => ['All'],
   docroot             => '/var/www/vhosts/project/public_html',
   fallbackresource    => '/index.php',
 }
