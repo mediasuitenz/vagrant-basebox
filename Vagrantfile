@@ -10,7 +10,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # please see the online documentation at vagrantup.com.
 
   # Every Vagrant virtual environment requires a box to build off of.
-  config.vm.box = "niepi/ubuntu-14.04-docker-puppet"
+  config.vm.box = "puppetlabs/ubuntu-14.04-64-puppet"
 
   # Update apt get
   config.vm.provision :shell, :inline =>
