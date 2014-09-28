@@ -87,7 +87,10 @@ include composer
 # with the commands
 # v ssh
 # puppet module install --modulepath /vagrant/puppet/modules fsalum/redis
-class { 'redis': }
+class { 'redis':
+  conf_port => '6379',
+  conf_bind => '0.0.0.0',
+}
 
 # Database
 class {'mysql::server':
