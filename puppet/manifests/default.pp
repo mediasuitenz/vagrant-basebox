@@ -60,7 +60,7 @@ file {'/var/www/vhosts/project/public_html':
 #   proxy => 'http://puppet_rack_app',
 # }
 
-class { 'apache': 
+class { 'apache':
   mpm_module => 'prefork',
   default_vhost => false,
 }
@@ -165,6 +165,35 @@ exec { 'chown local dir':
 class { 'java':
   distribution => 'jre'
 }
+
+# Postgres
+
+class { 'postgresql::server': }
+->
+postgresql::server::db { 'development':
+  user     => 'user',
+  password => 'password',
+}
+
+postgresql::server::db { 'testing':
+  user     => 'user',
+  password => 'password',
+}
+
+postgresql::server::db { 'production':
+  user     => 'user',
+  password => 'password',
+}
+
+class { 'postgresql::client': }
+->
+exec { 'make user superuser':
+  command => '/usr/bin/psql -c \'ALTER USER "user" WITH SUPERUSER;\'',
+  user => 'postgres',
+}
+
+class { 'postgresql::server::contrib': }
+class { 'postgresql::server::postgis': }
 
 include bash
 
