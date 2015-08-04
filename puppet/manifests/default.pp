@@ -185,13 +185,25 @@ postgresql::server::db { 'production':
   password => 'password',
 }
 
-class { 'postgresql::client': }
-->
-exec { 'make user superuser':
-  command => '/usr/bin/psql -c \'ALTER USER "user" WITH SUPERUSER;\'',
-  user => 'postgres',
+postgresql::server::database_grant { 'development':
+  privilege => 'ALL',
+  db        => 'development',
+  role      => 'user',
 }
 
+postgresql::server::database_grant { 'testing':
+  privilege => 'ALL',
+  db        => 'testing',
+  role      => 'user',
+}
+
+postgresql::server::database_grant { 'production':
+  privilege => 'ALL',
+  db        => 'production',
+  role      => 'user',
+}
+
+class { 'postgresql::client': }
 class { 'postgresql::server::contrib': }
 class { 'postgresql::server::postgis': }
 
