@@ -157,11 +157,8 @@ class { 'nodejs':
 exec { 'add nodemodules to path':
   command => '/bin/bash -c \'echo "export PATH=$PATH:/usr/local/node/node-v4.2.1/bin" >> /home/vagrant/.bashrc; source /home/vagrant/.bashrc\'',
 }
-exec { 'chown local dir':
-  command => '/bin/chown -R vagrant /usr/local',
-}
 exec { 'update npm':
-  command => '/bin/bash -c \'/usr/local/node/node-v4.2.1/bin/npm install -g npm\'',
+  command => '/bin/bash -c \'/usr/local/node/node-v4.2.1/bin/npm install -g npm; chown -R vagrant /usr/local\'',
 }
 
 # Java
